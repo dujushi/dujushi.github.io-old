@@ -67,6 +67,73 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="blog-Implement-Show-More-Button-for-A-Task-List" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/26/Implement-Show-More-Button-for-A-Task-List/">Implement Show More Button for A Task List</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/11/26/Implement-Show-More-Button-for-A-Task-List/" class="article-date">
+  <time datetime="2015-11-26T07:20:19.000Z" itemprop="datePublished">2015-11-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>To limite page size, we only want to list a limited number of items at first. And then click Show More button to render more items. We can use partial view to reuse our code. In this example we will implement a simple task list. </p>
+<ol>
+<li><p>Create show task action</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ShowTask</span><span class="params">(<span class="keyword">bool</span> showAll = <span class="literal">false</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pageSize = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">bool</span> showMoreButton = <span class="literal">false</span>;</span><br><span class="line">    var model = db.Tasks.AsQueryable();</span><br><span class="line">    <span class="keyword">if</span> (!showAll)</span><br><span class="line">    &#123;</span><br><span class="line">        showMoreButton = model.Count() &gt; pageSize;</span><br><span class="line">        model = model.Take(pageSize);</span><br><span class="line">    &#125;</span><br><span class="line">    ViewBag.ShowMoreButton = showMoreButton;</span><br><span class="line">    <span class="keyword">return</span> PartialView(<span class="string">"_ShowTask"</span>, model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Create PartialView _ShowTask.cshtml</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@model IEnumerable&lt;HtmlAction.Models.Task&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"task_container"</span>&gt;</span><br><span class="line">    @foreach (var <span class="property">item</span> <span class="keyword">in</span> Model)</span><br><span class="line">    &#123;</span><br><span class="line">        &lt;<span class="keyword">div</span> data-<span class="property">id</span>=<span class="string">"@item.Id"</span> <span class="type">class</span>=<span class="string">"task_item"</span>&gt;</span><br><span class="line">            &lt;span&gt;</span><br><span class="line">            @<span class="property">item</span>.Content</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">            &lt;a href=<span class="string">"#"</span> <span class="type">class</span>=<span class="string">"switch@(item.Status ? "</span> complete<span class="string">" : "</span><span class="string">")"</span> title=<span class="string">"Complete"</span>&gt;&amp;<span class="comment">#10004&lt;/a&gt;</span></span><br><span class="line">        &lt;/<span class="keyword">div</span>&gt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @<span class="keyword">if</span> (ViewBag.ShowMoreButton)</span><br><span class="line">    &#123;</span><br><span class="line">        &lt;a href=<span class="string">"#"</span> <span class="property">id</span>=<span class="string">"show_more"</span>&gt;Show More&lt;/a&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>In the list page, we can use Html.Action to show some items.</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Html.<span class="function"><span class="title">Action</span><span class="params">(<span class="string">"ShowTask"</span>)</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>And then we implement an AJAX function for ‘Show More’ button.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#show_more"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        type: <span class="string">"GET"</span>,</span><br><span class="line">        url: <span class="string">"/Task/ShowTask"</span>,</span><br><span class="line">        data: &#123; <span class="string">"showAll"</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            $(<span class="string">"#task_container"</span>).html(data);</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span> (<span class="params">request, status, err</span>) </span>&#123;</span><br><span class="line">            alert(<span class="string">"System error, try again later."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>We may want to implement an AJAX function to switch the status.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">"click"</span>, <span class="string">".switch"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> id = $(<span class="keyword">this</span>).closest(<span class="string">".task_item"</span>).data(<span class="string">"id"</span>);</span><br><span class="line">    <span class="keyword">var</span> className = <span class="string">"complete"</span>;</span><br><span class="line">    <span class="keyword">var</span> status = $(<span class="keyword">this</span>).hasClass(className);</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        context: <span class="keyword">this</span>,</span><br><span class="line">        type: <span class="string">"POST"</span>,</span><br><span class="line">        url: <span class="string">"/Task/StatusSwitch"</span>,</span><br><span class="line">        data: &#123; <span class="string">"id"</span>: id, <span class="string">"status"</span>: status &#125;,</span><br><span class="line">        dataType: <span class="string">"json"</span>,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (data.Success == <span class="literal">true</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (status) &#123;</span><br><span class="line">                    $(<span class="keyword">this</span>).removeClass(className);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    $(<span class="keyword">this</span>).addClass(className);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                alert(<span class="string">"System error, try again later."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        error: <span class="function"><span class="keyword">function</span> (<span class="params">request, status, err</span>) </span>&#123;</span><br><span class="line">            alert(<span class="string">"System error, try again later."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>There are some tricks in this function:</p>
+<ol>
+<li>we use <code>$(document).on(&quot;click&quot;, &quot;.switch&quot;, function () {})</code> instead of <code>$(&quot;.switch&quot;).click(function() {})</code>, so that all AJAX renderred switches can invoke the AJAX function as well.</li>
+<li>We add <code>context: this</code> to change context to the switch button we click on. So we can change the style of the switch button inside the function.</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AJAX/">AJAX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-Sharp/">C Sharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="blog-Generate-A-Dropdown-List-for-Enum" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -112,7 +179,7 @@ ga('send', 'pageview');
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C#</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dropdown-List/">Dropdown List</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Enum/">Enum</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-Sharp/">C Sharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dropdown-List/">Dropdown List</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Enum/">Enum</a></li></ul>
 
       </footer>
     
