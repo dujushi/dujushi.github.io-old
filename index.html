@@ -67,6 +67,60 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="blog-Model-Binding-to-Collections" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/21/Model-Binding-to-Collections/">Model Binding to Collections</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/21/Model-Binding-to-Collections/" class="article-date">
+  <time datetime="2015-12-21T09:39:32.000Z" itemprop="datePublished">2015-12-21</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>It is quit often we want to post a list of data to an action to save them. Ideally ASP.NET MVC Model Binding should be able to deal with this scenario. It should bind them into a list of data entities. And yes! Model Binding does offer us this convenicency. You can check out references below for more details. In this post, I will show how I use this feature with jQuery Ajax Post.</p>
+<h3 id="Post_Action">Post Action</h3><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">[<span class="keyword">HttpPost</span>]</span><br><span class="line">public ActionResult AddChores<span class="list">(<span class="keyword">ICollection&lt;Chore&gt;</span> chores)</span></span><br><span class="line">&#123;</span><br><span class="line">    if <span class="list">(<span class="keyword">chores.Any</span><span class="list">()</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _db.Chores.AddRange<span class="list">(<span class="keyword">chores</span>)</span><span class="comment">;</span></span><br><span class="line">        _db.SaveChanges<span class="list">()</span><span class="comment">;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return Json<span class="list">(<span class="keyword">new</span> &#123; Success = true &#125;)</span><span class="comment">;</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>We declare a collection of chore data entities.</p>
+<h3 id="Ajax_Post">Ajax Post</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">".ux-submit-new-chores"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> chores = [];</span><br><span class="line">    $(<span class="string">".ux-new-chore"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> chore = &#123;</span><br><span class="line">            name: $(<span class="keyword">this</span>).find(<span class="string">'input[name="name"]'</span>).val(),</span><br><span class="line">            status: $(<span class="keyword">this</span>).find(<span class="string">'input[name="status"]'</span>).prop(<span class="string">"checked"</span>)</span><br><span class="line">        &#125;;</span><br><span class="line">        chores.push(chore);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">        context: <span class="keyword">this</span>,</span><br><span class="line">        type: <span class="string">"POST"</span>,</span><br><span class="line">        url: <span class="string">"/Home/AddChores/"</span>,</span><br><span class="line">        data: <span class="built_in">JSON</span>.stringify(&#123; chores &#125;),</span><br><span class="line">        contentType: <span class="string">"application/json; charset=utf-8"</span>,</span><br><span class="line">        dataType: <span class="string">"json"</span>,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (data.Success) &#123;</span><br><span class="line">                location.href = location.href;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>We loop through all new chores and generate an array of them. And we post the data in JSON format to the action method.</p>
+<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/CollectionModelBinding" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/CollectionModelBinding</a></p>
+<h3 id="References">References</h3><ol>
+<li><a href="http://www.hanselman.com/blog/ASPNETWireFormatForModelBindingToArraysListsCollectionsDictionaries.aspx" target="_blank" rel="external">ASP.NET Wire Format for Model Binding to Arrays, Lists, Collections, Dictionaries</a></li>
+<li><a href="http://stackoverflow.com/questions/5284613/asp-net-mvc-3-json-model-binding-to-array" target="_blank" rel="external">ASP.Net MVC 3 - JSON Model binding to array</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ajax/">Ajax</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Model-Binding/">Model Binding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="blog-Pagination-With-Partial-View" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
