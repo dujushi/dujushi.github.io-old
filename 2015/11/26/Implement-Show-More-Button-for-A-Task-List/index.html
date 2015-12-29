@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://dujushi.github.io/2015/11/26/Implement-Show-More-Button-for-A-Task-List/index.html">
 <meta property="og:site_name" content="Peikai Guo">
 <meta property="og:description" content="To limite page size, we only want to list a limited number of items at first. And then click Show More button to render more items. We can use partial view to reuse our code. In this example we will i">
-<meta property="og:updated_time" content="2015-11-26T07:58:19.000Z">
+<meta property="og:updated_time" content="2015-12-29T02:50:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Implement Show More Button for A Task List">
 <meta name="twitter:description" content="To limite page size, we only want to list a limited number of items at first. And then click Show More button to render more items. We can use partial view to reuse our code. In this example we will i">
@@ -94,7 +94,7 @@ ga('send', 'pageview');
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>To limite page size, we only want to list a limited number of items at first. And then click Show More button to render more items. We can use partial view to reuse our code. In this example we will implement a simple task list. </p>
+        <p>To limite page size, we only want to list a limited number of items at first. And then click Show More button to render more items. We can use partial view to reuse our code. In this example we will implement a simple task list.<a id="more"></a> </p>
 <ol>
 <li><p>Create show task action</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">ShowTask</span><span class="params">(<span class="keyword">bool</span> showAll = <span class="literal">false</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pageSize = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">bool</span> showMoreButton = <span class="literal">false</span>;</span><br><span class="line">    var model = db.Tasks.AsQueryable();</span><br><span class="line">    <span class="keyword">if</span> (!showAll)</span><br><span class="line">    &#123;</span><br><span class="line">        showMoreButton = model.Count() &gt; pageSize;</span><br><span class="line">        model = model.Take(pageSize);</span><br><span class="line">    &#125;</span><br><span class="line">    ViewBag.ShowMoreButton = showMoreButton;</span><br><span class="line">    <span class="keyword">return</span> PartialView(<span class="string">"_ShowTask"</span>, model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
