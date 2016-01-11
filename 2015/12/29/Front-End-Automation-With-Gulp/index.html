@@ -5,19 +5,18 @@
   
   <title>Front End Automation With Gulp - Peikai Guo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency. 
-Gulp Plugins12var gulpLoadPlugins = require(&apos;gulp-loa">
+  <meta name="description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Front End Automation With Gulp">
 <meta property="og:url" content="http://dujushi.github.io/2015/12/29/Front-End-Automation-With-Gulp/index.html">
 <meta property="og:site_name" content="Peikai Guo">
-<meta property="og:description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency. 
-Gulp Plugins12var gulpLoadPlugins = require(&apos;gulp-loa">
-<meta property="og:updated_time" content="2015-12-29T02:35:29.000Z">
+<meta property="og:description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency.">
+<meta property="og:updated_time" content="2016-01-11T21:52:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Front End Automation With Gulp">
-<meta name="twitter:description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency. 
-Gulp Plugins12var gulpLoadPlugins = require(&apos;gulp-loa">
+<meta name="twitter:description" content="Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency.">
+  
+    <link rel="alternative" href="/atom.xml" title="Peikai Guo" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -97,7 +96,7 @@ ga('send', 'pageview');
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency. </p>
+        <p>Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency.<a id="more"></a> </p>
 <h3 id="Gulp_Plugins">Gulp Plugins</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulpLoadPlugins = <span class="built_in">require</span>(<span class="string">'gulp-load-plugins'</span>);</span><br><span class="line"><span class="keyword">var</span> plugins = gulpLoadPlugins();</span><br></pre></td></tr></table></figure>
 <p>We will use lots of Gulp plugins in our tasks. With gulp-load-plugins we don’t need to import them mannually.</p>
 <h3 id="Config">Config</h3><figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">var config = </span><span class="expression">&#123;</span><br><span class="line">    <span class="variable">production</span>: !!<span class="variable">plugins.util.env.production</span>,</span><br><span class="line">	<span class="variable">port</span>: 9005,</span><br><span class="line">	<span class="variable">devBaseUrl</span>: '<span class="variable">http</span>:/<span class="end-block">/localhost</span>',</span><br><span class="line">	<span class="variable">paths</span>: &#123;</span><br><span class="line">		<span class="variable">mainJs</span>: '<span class="variable">.</span><span class="end-block">/src</span><span class="end-block">/main.js</span>',</span><br><span class="line">		<span class="variable">appJs</span>: '<span class="variable">.</span><span class="end-block">/src</span><span class="end-block">/app</span>/**/*<span class="variable">.js</span>',</span><br><span class="line">		<span class="variable">scss</span>: '<span class="variable">.</span><span class="end-block">/src</span>/**/*<span class="variable">.scss</span>',</span><br><span class="line">		<span class="variable">html</span>: '<span class="variable">.</span><span class="end-block">/src</span>/*<span class="variable">.html</span>',</span><br><span class="line">		<span class="variable">build</span>: '<span class="variable">.</span><span class="end-block">/build</span>'</span><br><span class="line">	&#125;</span><span class="xml"></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
@@ -141,6 +140,14 @@ ga('send', 'pageview');
     
 <nav id="article-nav">
   
+    <a href="/2016/01/12/Google-Distance-Matrix-API-with-HttpClient-and-Json-NET/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Google Distance Matrix API with HttpClient and Json.NET
+        
+      </div>
+    </a>
+  
   
     <a href="/2015/12/21/Model-Binding-to-Collections/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Model Binding to Collections&nbsp;<span>&gt;</span></div>
@@ -156,7 +163,7 @@ ga('send', 'pageview');
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2015 Peikai Guo&nbsp;
+      &copy; 2016 Peikai Guo&nbsp;
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
   </div>
