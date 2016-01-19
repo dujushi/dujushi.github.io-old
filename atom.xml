@@ -4,7 +4,7 @@
   <subtitle><![CDATA[A Web Developer Blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://dujushi.github.io/"/>
-  <updated>2016-01-11T22:15:26.000Z</updated>
+  <updated>2016-01-19T08:51:16.000Z</updated>
   <id>http://dujushi.github.io/</id>
   
   <author>
@@ -15,12 +15,81 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Export Data as CSV]]></title>
+    <link href="http://dujushi.github.io/2016/01/19/Export-Data-as-CSV/"/>
+    <id>http://dujushi.github.io/2016/01/19/Export-Data-as-CSV/</id>
+    <published>2016-01-19T08:42:48.000Z</published>
+    <updated>2016-01-19T08:51:16.000Z</updated>
+    <content type="html"><![CDATA[<p>CSV is a common format for data exchange. It stands for “Comma Separated Values”. Values need to be double-quoted if they contain comma, double quotes, leading or trailing spaces. The format is actually quite simple. We can generate one easily with StringBuidler.</p>
+<h3 id="Product_Model">Product Model</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Fake_Product_Data">Fake Product Data</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> List&lt;<span class="built_in">Product</span>&gt; getProducts()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> Enumerable.<span class="built_in">Range</span>(<span class="number">0</span>, <span class="number">1000</span>).<span class="keyword">Select</span>(x =&gt; new <span class="built_in">Product</span> &#123;Id = x, <span class="keyword">Name</span> = $<span class="string">"Name &#123;x&#125;"</span>&#125;).ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CSV_with_StringBuilder">CSV with StringBuilder</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> FileResult Csv()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">data</span> = <span class="literal">new</span> StringBuilder();</span><br><span class="line">    <span class="built_in">data</span><span class="built_in">.</span>AppendLine(<span class="string">"Id,Name"</span>);</span><br><span class="line">    foreach (<span class="built_in">var</span> product <span class="keyword">in</span> getProducts())</span><br><span class="line">        <span class="built_in">data</span><span class="built_in">.</span>AppendLine($<span class="string">"&#123;product.Id&#125;,&#123;product.Name&#125;"</span>);</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">bytes</span> = Encoding<span class="built_in">.</span>UTF8<span class="built_in">.</span>GetBytes(<span class="built_in">data</span><span class="built_in">.</span>ToString());</span><br><span class="line">    <span class="keyword">return</span> File(<span class="built_in">bytes</span>, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can also generate a CSV file with FileHelpers library.</p>
+<h3 id="CSV_with_FileHelpers">CSV with FileHelpers</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[DelimitedRecord(<span class="string">","</span>)]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> FileResult <span class="title">FileHelperCsv</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> engine = <span class="keyword">new</span> FileHelperEngine&lt;Product&gt; &#123;HeaderText = <span class="string">"Id,Name"</span>&#125;;</span><br><span class="line">    <span class="keyword">var</span> data = engine.WriteString(getProducts());</span><br><span class="line">    <span class="keyword">var</span> bytes = Encoding.UTF8.GetBytes(data);</span><br><span class="line">    <span class="keyword">return</span> File(bytes, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FileHelpers is handy. We can install FileHelpers through Nuget Package Console. But when data gets complicated we may need to create a specific data model for it. For exaple, we may want to exclude PhotoUrl and ThumbnailUrl from the result. We can add FieldHidden annotations to hide them. But the annotation only supports fields, not properties. </p>
+<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/CSV" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/CSV</a></p>
+<h3 id="References">References</h3><ol>
+<li><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" rel="external">Comma-separated values</a></li>
+<li><a href="http://www.filehelpers.net/" target="_blank" rel="external">FileHelpers</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>CSV is a common format for data exchange. It stands for “Comma Separated Values”. Values need to be double-quoted if they contain comma, ]]>
+    </summary>
+    
+      <category term="CSV" scheme="http://dujushi.github.io/tags/CSV/"/>
+    
+      <category term="FileHelpers" scheme="http://dujushi.github.io/tags/FileHelpers/"/>
+    
+      <category term="ASP.NET MVC" scheme="http://dujushi.github.io/categories/ASP-NET-MVC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[CamelCase Json Result wth Json.NET]]></title>
+    <link href="http://dujushi.github.io/2016/01/14/CamelCase-Json-Result-wth-Json-NET/"/>
+    <id>http://dujushi.github.io/2016/01/14/CamelCase-Json-Result-wth-Json-NET/</id>
+    <published>2016-01-14T07:37:57.000Z</published>
+    <updated>2016-01-19T08:51:32.000Z</updated>
+    <content type="html"><![CDATA[<p>  .NET has PascalCase naming convention for properties while Javascript has camelCase. Is there an easy way to convert the Json result? The answer is Json.NET. This article will show you how to create a custom result with Json.NET.<a id="more"></a></p>
+<ol>
+<li>Install Newtonsoft.Json Nuget Package</li>
+<li><p>Custom Action Result</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JsonCamelCaseResult</span> : <span class="title">ActionResult</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Encoding ContentEncoding &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ContentType &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">object</span> Data &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">ExecuteResult</span>(<span class="params">ControllerContext context</span>)</span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (context == <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        HttpResponseBase response = context.HttpContext.Response;</span><br><span class="line">        response.ContentType = !<span class="keyword">string</span>.IsNullOrEmpty(ContentType) ? ContentType : <span class="string">"application/json"</span>;</span><br><span class="line">        <span class="keyword">if</span> (ContentEncoding != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            response.ContentEncoding = ContentEncoding;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (Data != <span class="keyword">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> jsonSerializerSettings = <span class="keyword">new</span> JsonSerializerSettings</span><br><span class="line">            &#123;</span><br><span class="line">                ContractResolver = <span class="keyword">new</span> CamelCasePropertyNamesContractResolver()</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            response.Write(JsonConvert.SerializeObject(Data, jsonSerializerSettings));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We use CamelCasePropertyNamesContractResolver to convert PascalCase into camelCase.</p>
+</li>
+<li><p>Controller Extension Method</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">JsonCamelCaseHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JsonCamelCaseResult <span class="title">JsonCamelCase</span>(<span class="params"><span class="keyword">this</span> Controller controller, <span class="keyword">object</span> data</span>)</span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> JsonCamelCaseResult</span><br><span class="line">        &#123;</span><br><span class="line">            Data = data</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This extension method can save us some typing. We can use this.JsonCamelCase([data]) in any controllers. Or you can put this method into your base controller if you have one.</p>
+</li>
+<li><p>Usage</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function">ActionResult <span class="title">Index</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    var product = <span class="keyword">new</span> Product</span><br><span class="line">    &#123;</span><br><span class="line">        FancyName = <span class="string">"iPad Pro"</span>,</span><br><span class="line">        SalesPrice = <span class="number">12.10</span>m</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="keyword">this</span>.<span class="title">JsonCamelCase</span><span class="params">(product)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>‘FancyName’ will be changed to ‘fancyName’ in the result.</p>
+<h3 id="Gist">Gist</h3><p><a href="https://gist.github.com/dujushi/890bf6b4455a58a7256e" target="_blank" rel="external">https://gist.github.com/dujushi/890bf6b4455a58a7256e</a></p>
+<h3 id="References">References</h3></li>
+<li><a href="http://www.matskarlsson.se/blog/serialize-net-objects-as-camelcase-json" target="_blank" rel="external">Serialize .NET objects as camelCase JSON</a></li>
+<li><a href="http://james.newtonking.com/archive/2008/10/16/asp-net-mvc-and-json-net" target="_blank" rel="external">ASP.NET MVC and Json.NET</a></li>
+<li><a href="http://stackoverflow.com/questions/14591750/setting-the-default-json-serializer-in-asp-net-mvc" target="_blank" rel="external">Setting the Default JSON Serializer in ASP.NET MVC</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>  .NET has PascalCase naming convention for properties while Javascript has camelCase. Is there an easy way to convert the Json result? The answer is Json.NET. This article will show you how to create a custom result with Json.NET.]]>
+    
+    </summary>
+    
+      <category term="Json.NET" scheme="http://dujushi.github.io/tags/Json-NET/"/>
+    
+      <category term="ASP.NET MVC" scheme="http://dujushi.github.io/categories/ASP-NET-MVC/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Google Distance Matrix API with HttpClient and Json.NET]]></title>
     <link href="http://dujushi.github.io/2016/01/12/Google-Distance-Matrix-API-with-HttpClient-and-Json-NET/"/>
     <id>http://dujushi.github.io/2016/01/12/Google-Distance-Matrix-API-with-HttpClient-and-Json-NET/</id>
     <published>2016-01-11T21:34:12.000Z</published>
-    <updated>2016-01-11T22:15:26.000Z</updated>
-    <content type="html"><![CDATA[<p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google Distance Matrix API.</p>
+    <updated>2016-01-14T07:45:38.000Z</updated>
+    <content type="html"><![CDATA[<p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google Distance Matrix API.<a id="more"></a></p>
 <ol>
 <li>Add System.Net.Http reference for HttpClient and install Newtonsoft.Json Nuget Package</li>
 <li><p>Add API Url and API Key settings into Web.config</p>
@@ -54,7 +123,8 @@
 </ol>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google D]]>
+    <![CDATA[<p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google Distance Matrix API.]]>
+    
     </summary>
     
       <category term="Google Distance Matrix API" scheme="http://dujushi.github.io/tags/Google-Distance-Matrix-API/"/>

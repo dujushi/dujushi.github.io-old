@@ -69,6 +69,119 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="blog-Export-Data-as-CSV" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/19/Export-Data-as-CSV/">Export Data as CSV</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/19/Export-Data-as-CSV/" class="article-date">
+  <time datetime="2016-01-19T08:42:48.000Z" itemprop="datePublished">2016-01-19</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2016/01/19/Export-Data-as-CSV/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CSV is a common format for data exchange. It stands for “Comma Separated Values”. Values need to be double-quoted if they contain comma, double quotes, leading or trailing spaces. The format is actually quite simple. We can generate one easily with StringBuidler.</p>
+<h3 id="Product_Model">Product Model</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Fake_Product_Data">Fake Product Data</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> List&lt;<span class="built_in">Product</span>&gt; getProducts()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> Enumerable.<span class="built_in">Range</span>(<span class="number">0</span>, <span class="number">1000</span>).<span class="keyword">Select</span>(x =&gt; new <span class="built_in">Product</span> &#123;Id = x, <span class="keyword">Name</span> = $<span class="string">"Name &#123;x&#125;"</span>&#125;).ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CSV_with_StringBuilder">CSV with StringBuilder</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> FileResult Csv()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">data</span> = <span class="literal">new</span> StringBuilder();</span><br><span class="line">    <span class="built_in">data</span><span class="built_in">.</span>AppendLine(<span class="string">"Id,Name"</span>);</span><br><span class="line">    foreach (<span class="built_in">var</span> product <span class="keyword">in</span> getProducts())</span><br><span class="line">        <span class="built_in">data</span><span class="built_in">.</span>AppendLine($<span class="string">"&#123;product.Id&#125;,&#123;product.Name&#125;"</span>);</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">bytes</span> = Encoding<span class="built_in">.</span>UTF8<span class="built_in">.</span>GetBytes(<span class="built_in">data</span><span class="built_in">.</span>ToString());</span><br><span class="line">    <span class="keyword">return</span> File(<span class="built_in">bytes</span>, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can also generate a CSV file with FileHelpers library.</p>
+<h3 id="CSV_with_FileHelpers">CSV with FileHelpers</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[DelimitedRecord(<span class="string">","</span>)]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> FileResult <span class="title">FileHelperCsv</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> engine = <span class="keyword">new</span> FileHelperEngine&lt;Product&gt; &#123;HeaderText = <span class="string">"Id,Name"</span>&#125;;</span><br><span class="line">    <span class="keyword">var</span> data = engine.WriteString(getProducts());</span><br><span class="line">    <span class="keyword">var</span> bytes = Encoding.UTF8.GetBytes(data);</span><br><span class="line">    <span class="keyword">return</span> File(bytes, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>FileHelpers is handy. We can install FileHelpers through Nuget Package Console. But when data gets complicated we may need to create a specific data model for it. For exaple, we may want to exclude PhotoUrl and ThumbnailUrl from the result. We can add FieldHidden annotations to hide them. But the annotation only supports fields, not properties. </p>
+<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/CSV" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/CSV</a></p>
+<h3 id="References">References</h3><ol>
+<li><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" rel="external">Comma-separated values</a></li>
+<li><a href="http://www.filehelpers.net/" target="_blank" rel="external">FileHelpers</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSV/">CSV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FileHelpers/">FileHelpers</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
+      <article id="blog-CamelCase-Json-Result-wth-Json-NET" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/14/CamelCase-Json-Result-wth-Json-NET/">CamelCase Json Result wth Json.NET</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/14/CamelCase-Json-Result-wth-Json-NET/" class="article-date">
+  <time datetime="2016-01-14T07:37:57.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2016/01/14/CamelCase-Json-Result-wth-Json-NET/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  .NET has PascalCase naming convention for properties while Javascript has camelCase. Is there an easy way to convert the Json result? The answer is Json.NET. This article will show you how to create a custom result with Json.NET.
+        
+          <p class="article-more-link">
+            <a href="/2016/01/14/CamelCase-Json-Result-wth-Json-NET/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Json-NET/">Json.NET</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="blog-Google-Distance-Matrix-API-with-HttpClient-and-Json-NET" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -93,42 +206,19 @@ ga('send', 'pageview');
   </div>
 
       
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2016/01/12/Google-Distance-Matrix-API-with-HttpClient-and-Json-NET/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google Distance Matrix API.</p>
-<ol>
-<li>Add System.Net.Http reference for HttpClient and install Newtonsoft.Json Nuget Package</li>
-<li><p>Add API Url and API Key settings into Web.config</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">appSettings</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">add</span> <span class="attribute">key</span>=<span class="value">"GoogleDistanceMatrixApiUrl"</span> <span class="attribute">value</span>=<span class="value">"https://maps.googleapis.com/maps/api/distancematrix/json"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">add</span> <span class="attribute">key</span>=<span class="value">"GoogleDistanceMatrixApiKey"</span> <span class="attribute">value</span>=<span class="value">"YOUR API KEY"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">appSettings</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>GoogleDistanceMatrixApi Constructor</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">GoogleDistanceMatrixApi</span>(<span class="params"><span class="keyword">string</span>[] originAddresses, <span class="keyword">string</span>[] destinationAddresses</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    OriginAddresses = originAddresses;</span><br><span class="line">    DestinationAddresses = destinationAddresses;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> appSettings = ConfigurationManager.AppSettings;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(appSettings[<span class="string">"GoogleDistanceMatrixApiUrl"</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"GoogleDistanceMatrixApiUrl is not set in AppSettings."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Url = appSettings[<span class="string">"GoogleDistanceMatrixApiUrl"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(appSettings[<span class="string">"GoogleDistanceMatrixApiKey"</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"GoogleDistanceMatrixApiKey is not set in AppSettings."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Key = appSettings[<span class="string">"GoogleDistanceMatrixApiKey"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The constructor receives origin addresses and destination addresses from the user and it gets App Url and Key settings from AppSettings. If the Url and Key settings are missing, it will throw an exception.</p>
-</li>
-<li><p>Generate request url</p>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">string</span> GetRequestUrl()</span><br><span class="line">&#123;</span><br><span class="line">    OriginAddresses = OriginAddresses<span class="built_in">.</span><span class="keyword">Select</span>(HttpUtility<span class="built_in">.</span>UrlEncode)<span class="built_in">.</span>ToArray();</span><br><span class="line">    <span class="built_in">var</span> origins = <span class="built_in">string</span><span class="built_in">.</span><span class="keyword">Join</span>(<span class="string">"|"</span>, OriginAddresses);</span><br><span class="line">    DestinationAddresses = DestinationAddresses<span class="built_in">.</span><span class="keyword">Select</span>(HttpUtility<span class="built_in">.</span>UrlEncode)<span class="built_in">.</span>ToArray();</span><br><span class="line">    <span class="built_in">var</span> destinations = <span class="built_in">string</span><span class="built_in">.</span><span class="keyword">Join</span>(<span class="string">"|"</span>, DestinationAddresses);</span><br><span class="line">    <span class="keyword">return</span> $<span class="string">"&#123;Url&#125;?origins=&#123;origins&#125;&amp;destinations=&#123;destinations&#125;&amp;key=&#123;Key&#125;"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>All addresses need to be url encoded.</p>
-</li>
-<li><p>Response Ojbect</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Response</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Status &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [JsonProperty(PropertyName = <span class="string">"origin_addresses"</span>)]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> [] OriginAddresses &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [JsonProperty(PropertyName = <span class="string">"destination_addresses"</span>)]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> [] DestinationAddresses &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Row [] Rows &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Data</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Value &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Text &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Element</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Status &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> Data Duration &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> Data Distance &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Row</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> Element[] Elements &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>This Response class maps API response. Json.NET can parse Json into a C# class. It is handy for us to analyse the result later on. We use JsonProperty attribute here to map Json properties to class properties if they are different.</p>
-</li>
-<li><p>Request with HttpClient</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;Response&gt; <span class="title">GetResponse</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> uri = <span class="keyword">new</span> Uri(GetRequestUrl());</span><br><span class="line"></span><br><span class="line">        HttpResponseMessage response = <span class="keyword">await</span> client.GetAsync(uri);</span><br><span class="line">        <span class="keyword">if</span> (!response.IsSuccessStatusCode)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"GoogleDistanceMatrixApi failed with status code: "</span> + response.StatusCode);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> content = <span class="keyword">await</span> response.Content.ReadAsStringAsync();</span><br><span class="line">            <span class="keyword">return</span> JsonConvert.DeserializeObject&lt;Response&gt;(content);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>HttpClient’s built in async feature makes program efficient. JsonConvert parses Json response into a Response class we defined.</p>
-</li>
-<li>Usage<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;ActionResult&gt; <span class="title">Index</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    GoogleDistanceMatrixApi api = <span class="keyword">new</span> GoogleDistanceMatrixApi(<span class="keyword">new</span> [] &#123; <span class="string">"Auckland Airport"</span> &#125; , <span class="keyword">new</span> [] &#123; <span class="string">"Corner Princes Street and Waterloo Quadrant"</span> &#125;);</span><br><span class="line">    <span class="keyword">var</span> response = <span class="keyword">await</span> api.GetResponse();</span><br><span class="line">    <span class="keyword">return</span> Json(response, JsonRequestBehavior.AllowGet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="Gist">Gist</h3><p><a href="https://gist.github.com/dujushi/86a6555f0df73bb8ced4" target="_blank" rel="external">https://gist.github.com/dujushi/86a6555f0df73bb8ced4</a></p>
-<h3 id="References">References</h3><ol>
-<li><a href="https://developers.google.com/maps/documentation/distance-matrix/intro" target="_blank" rel="external">The Google Maps Distance Matrix API</a></li>
-<li><a href="http://www.newtonsoft.com/json" target="_blank" rel="external">Json.NET</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/hh300224.aspx#BKMK_CompleteCodeExamples" target="_blank" rel="external">Walkthrough: Accessing the Web by Using Async and Await (C# and Visual Basic)</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110" target="_blank" rel="external">ConfigurationManager.AppSettings Property</a>.aspx)</li>
-</ol>
-
+        <p>  Google Map is excellent. So is Google Map API. This article will create a simple class with HttpClient and Json.NET to utilise Google Distance Matrix API.
+        
+          <p class="article-more-link">
+            <a href="/2016/01/12/Google-Distance-Matrix-API-with-HttpClient-and-Json-NET/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -168,6 +258,10 @@ ga('send', 'pageview');
     <a class="article-category-link" href="/categories/Gulp/">Gulp</a>
   </div>
 
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/12/29/Front-End-Automation-With-Gulp/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -218,6 +312,10 @@ ga('send', 'pageview');
   </div>
 
       
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/12/21/Model-Binding-to-Collections/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -266,6 +364,10 @@ ga('send', 'pageview');
     <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
   </div>
 
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/12/03/Pagination-With-Partial-View/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -316,6 +418,10 @@ ga('send', 'pageview');
   </div>
 
       
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/11/26/Implement-Show-More-Button-for-A-Task-List/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -364,6 +470,10 @@ ga('send', 'pageview');
     <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
   </div>
 
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/11/26/Generate-A-Dropdown-List-for-Enum/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
@@ -415,6 +525,10 @@ ga('send', 'pageview');
   </div>
 
       
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/11/18/Custom-Validator-For-ASP-NET-MVC-MustBeTrue/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -464,6 +578,10 @@ ga('send', 'pageview');
   </div>
 
       
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2015/11/12/ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
@@ -490,54 +608,9 @@ ga('send', 'pageview');
 
 
     
-      <article id="post-Magento-1-Development-Environment-Setup" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/08/Magento-1-Development-Environment-Setup/">Magento 1 Development Environment Setup</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/10/08/Magento-1-Development-Environment-Setup/" class="article-date">
-  <time datetime="2015-10-08T08:12:25.000Z" itemprop="datePublished">2015-10-08</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Magento-1/">Magento 1</a>
-  </div>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>There is an advanced Magento development environment setup tool implemented by <a href="https://github.com/davidalger/devenv">davidalger</a>. But I’d like to keep my env simple and basic:P So I decided to make my own.
-        
-          <p class="article-more-link">
-            <a href="/2015/10/08/Magento-1-Development-Environment-Setup/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development-Environment/">Development Environment</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magento-1/">Magento 1</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
+      <nav id="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      </nav>
     </section>
     <footer id="footer">
   
@@ -549,6 +622,18 @@ ga('send', 'pageview');
   </div>
 </footer>
     
+<script>
+  var disqus_shortname = 'peikaiguo';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="/js/jquery.min.js"></script>
 
