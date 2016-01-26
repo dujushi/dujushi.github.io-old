@@ -69,6 +69,64 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="blog-A-Large-Number-of-Values-in-An-IN-Clause" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/26/A-Large-Number-of-Values-in-An-IN-Clause/">A Large Number of Values in An IN Clause</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/01/26/A-Large-Number-of-Values-in-An-IN-Clause/" class="article-date">
+  <time datetime="2016-01-26T09:23:23.000Z" itemprop="datePublished">2016-01-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Database/">Database</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2016/01/26/A-Large-Number-of-Values-in-An-IN-Clause/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.</p>
+<h3 id="With_Entity_Framework">With Entity Framework</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public void InClauseMaxValuesWithEntityFramework()</span><br><span class="line">&#123;</span><br><span class="line">    using (<span class="keyword">var</span> <span class="keyword">db</span> = new EfDbContext())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = 10000; i &lt; 20000; i += 1000)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">log</span> = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">db</span>.Database.<span class="keyword">Log</span> = s =&gt; <span class="keyword">log</span> += s;</span><br><span class="line">            <span class="keyword">var</span> idArr = Enumerable.<span class="keyword">Range</span>(0, i).Select(x =&gt; Guid.NewGuid()).ToArray();</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">count</span> = <span class="keyword">db</span>.Categories.<span class="keyword">Count</span>(c =&gt; idArr.Contains(c.Id));</span><br><span class="line">            Console.WriteLine($<span class="string">"Guid count: &#123;i&#125;, sql length: &#123;log.Length&#125;, result: &#123;count&#125;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>I set db.Database.Log to log query into local log variable. The queries were really slow with more than 10,000 of values. I got the following result.<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="type">Name</span>:  <span class="type">InClauseMaxValuesWithEntityFramework</span></span><br><span class="line"><span class="type">Test</span> <span class="type">Outcome</span>:   <span class="type">Failed</span></span><br><span class="line"><span class="type">Result</span> <span class="type">Message</span>: </span><br><span class="line"><span class="type">Test</span> <span class="keyword">method</span> <span class="type">UnitTest</span>.<span class="type">Demo</span>.<span class="type">InClauseMaxValuesWithEntityFramework</span> threw exception: </span><br><span class="line"><span class="type">System</span>.<span class="type">Data</span>.<span class="type">Entity</span>.<span class="type">Core</span>.<span class="type">EntityCommandExecutionException</span>: <span class="type">An</span> error occurred <span class="keyword">while</span> executing the command definition. <span class="type">See</span> the inner exception <span class="keyword">for</span> details. ---&gt; <span class="type">System</span>.<span class="type">Data</span>.<span class="type">SqlClient</span>.<span class="type">SqlException</span>: <span class="type">Timeout</span> expired.  <span class="type">The</span> timeout period elapsed prior to completion <span class="keyword">of</span> the operation <span class="keyword">or</span> the server <span class="keyword">is</span> <span class="keyword">not</span> responding. ---&gt; <span class="type">System</span>.<span class="type">ComponentModel</span>.<span class="type">Win32Exception</span>: <span class="type">The</span> wait operation timed <span class="keyword">out</span></span><br><span class="line"><span class="type">Result</span> <span class="type">StandardOutput</span>:  </span><br><span class="line"><span class="type">Guid</span> count: <span class="number">10000</span>, sql length: <span class="number">662035</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">11000</span>, sql length: <span class="number">726388</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">12000</span>, sql length: <span class="number">792389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">13000</span>, sql length: <span class="number">858389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">14000</span>, sql length: <span class="number">924389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">15000</span>, sql length: <span class="number">990389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>It threw a timeout exception when it reached 16,000 values.</p>
+<h3 id="With_Raw_Query">With Raw Query</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">InClauseMaxValuesWithRawQuery</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> db = <span class="keyword">new</span> EfDbContext())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">10000</span>; i &lt; <span class="number">20000</span>; i += <span class="number">1000</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> idArr = Enumerable.Range(<span class="number">0</span>, i).Select(x =&gt; Guid.NewGuid()).ToArray();</span><br><span class="line">            <span class="keyword">var</span> idStr = <span class="keyword">string</span>.Join(<span class="string">"','"</span>, idArr);</span><br><span class="line">            <span class="keyword">var</span> sql = $<span class="string">"select count(*) from categories where id in ('&#123;idStr&#125;')"</span>;</span><br><span class="line">            <span class="keyword">var</span> count = db.Database.SqlQuery&lt;<span class="keyword">int</span>&gt;(sql).Single();</span><br><span class="line">            Console.WriteLine($<span class="string">"Guid count: &#123;i&#125;, sql length: &#123;sql.Length&#125;, result: &#123;count&#125;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can use db.Database.SqlQuery to run raw query. Result:<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="type">Name</span>:  <span class="type">InClauseMaxValuesWithRawQuery</span></span><br><span class="line"><span class="type">Test</span> <span class="type">Outcome</span>:   <span class="type">Failed</span></span><br><span class="line"><span class="type">Result</span> <span class="type">Message</span>: </span><br><span class="line"><span class="type">Test</span> <span class="keyword">method</span> <span class="type">UnitTest</span>.<span class="type">Demo</span>.<span class="type">InClauseMaxValuesWithRawQuery</span> threw exception: </span><br><span class="line"><span class="type">System</span>.<span class="type">Data</span>.<span class="type">SqlClient</span>.<span class="type">SqlException</span>: <span class="type">Timeout</span> expired.  <span class="type">The</span> timeout period elapsed prior to completion <span class="keyword">of</span> the operation <span class="keyword">or</span> the server <span class="keyword">is</span> <span class="keyword">not</span> responding. ---&gt; <span class="type">System</span>.<span class="type">ComponentModel</span>.<span class="type">Win32Exception</span>: <span class="type">The</span> wait operation timed <span class="keyword">out</span></span><br><span class="line"><span class="type">Result</span> <span class="type">StandardOutput</span>:  </span><br><span class="line"><span class="type">Guid</span> count: <span class="number">10000</span>, sql length: <span class="number">390045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">11000</span>, sql length: <span class="number">429045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">12000</span>, sql length: <span class="number">468045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">13000</span>, sql length: <span class="number">507045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">14000</span>, sql length: <span class="number">546045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">15000</span>, sql length: <span class="number">585045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">16000</span>, sql length: <span class="number">624045</span>, <span class="literal">result</span>: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>It threw a timeout exception with 17,000 values. </p>
+<p>If we have this extremely large number of values, we should store them into a table first and then query against it.</p>
+<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/InClauseLargeNumberOfValues" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/InClauseLargeNumberOfValues</a></p>
+<h3 id="Reference">Reference</h3><p>1.<a href="https://technet.microsoft.com/en-us/library/ms177682.aspx" target="_blank" rel="external">IN (Transact-SQL)</a><br>2.<a href="https://msdn.microsoft.com/en-nz/data/jj592907.aspx" target="_blank" rel="external">Raw SQL Queries</a><br>3.<a href="https://msdn.microsoft.com/en-us/data/dn469464.aspx" target="_blank" rel="external">Logging and Intercepting Database Operations (EF6 Onwards)</a></p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Entity-Framework/">Entity Framework</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="blog-Export-Data-as-CSV" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -100,19 +158,12 @@ ga('send', 'pageview');
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>CSV is a common format for data exchange. It stands for “Comma Separated Values”. Values need to be double-quoted if they contain comma, double quotes, leading or trailing spaces. The format is actually quite simple. We can generate one easily with StringBuidler.</p>
-<h3 id="Product_Model">Product Model</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Fake_Product_Data">Fake Product Data</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> List&lt;<span class="built_in">Product</span>&gt; getProducts()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> Enumerable.<span class="built_in">Range</span>(<span class="number">0</span>, <span class="number">1000</span>).<span class="keyword">Select</span>(x =&gt; new <span class="built_in">Product</span> &#123;Id = x, <span class="keyword">Name</span> = $<span class="string">"Name &#123;x&#125;"</span>&#125;).ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="CSV_with_StringBuilder">CSV with StringBuilder</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> FileResult Csv()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">data</span> = <span class="literal">new</span> StringBuilder();</span><br><span class="line">    <span class="built_in">data</span><span class="built_in">.</span>AppendLine(<span class="string">"Id,Name"</span>);</span><br><span class="line">    foreach (<span class="built_in">var</span> product <span class="keyword">in</span> getProducts())</span><br><span class="line">        <span class="built_in">data</span><span class="built_in">.</span>AppendLine($<span class="string">"&#123;product.Id&#125;,&#123;product.Name&#125;"</span>);</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">bytes</span> = Encoding<span class="built_in">.</span>UTF8<span class="built_in">.</span>GetBytes(<span class="built_in">data</span><span class="built_in">.</span>ToString());</span><br><span class="line">    <span class="keyword">return</span> File(<span class="built_in">bytes</span>, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>We can also generate a CSV file with FileHelpers library.</p>
-<h3 id="CSV_with_FileHelpers">CSV with FileHelpers</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[DelimitedRecord(<span class="string">","</span>)]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PhotoUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ThumbnailUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">public</span> FileResult <span class="title">FileHelperCsv</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> engine = <span class="keyword">new</span> FileHelperEngine&lt;Product&gt; &#123;HeaderText = <span class="string">"Id,Name"</span>&#125;;</span><br><span class="line">    <span class="keyword">var</span> data = engine.WriteString(getProducts());</span><br><span class="line">    <span class="keyword">var</span> bytes = Encoding.UTF8.GetBytes(data);</span><br><span class="line">    <span class="keyword">return</span> File(bytes, <span class="string">"text/csv"</span>, <span class="string">"Products.csv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>FileHelpers is handy. We can install FileHelpers through Nuget Package Console. But when data gets complicated we may need to create a specific data model for it. For exaple, we may want to exclude PhotoUrl and ThumbnailUrl from the result. We can add FieldHidden annotations to hide them. But the annotation only supports fields, not properties. </p>
-<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/CSV" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/CSV</a></p>
-<h3 id="References">References</h3><ol>
-<li><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" rel="external">Comma-separated values</a></li>
-<li><a href="http://www.filehelpers.net/" target="_blank" rel="external">FileHelpers</a></li>
-</ol>
-
+        <p>CSV is a common format for data exchange. It stands for “Comma Separated Values”. Values need to be double-quoted if they contain comma, double quotes, leading or trailing spaces. The format is actually quite simple. We can generate one easily with StringBuidler.
+        
+          <p class="article-more-link">
+            <a href="/2016/01/19/Export-Data-as-CSV/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -545,60 +596,6 @@ ga('send', 'pageview');
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Validation/">Validation</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-    
-      <article id="blog-ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7" class="article article-type-blog" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/12/ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7/">ASP.NET Web Development With Visual Studio 2015 and Local IIS 7 on Windows 7</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/11/12/ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7/" class="article-date">
-  <time datetime="2015-11-12T08:41:30.000Z" itemprop="datePublished">2015-11-12</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
-  </div>
-
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://dujushi.github.io/2015/11/12/ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7/#disqus_thread" class="article-comment-link">Comments</a>
-        </div>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Visual Studio 2015 provides ASP.NET web development environment directly with IIS Express. It is very straight forward to start web development with this setting. But if you ever used Visual Studio 2015 with Local IIS, you would find that it is much more convenient and you would love it.</p>
-<p>This tutorial will go through how to set up ASP.NET web development environment with Visual Studio 2015 and Local IIS on Windows 7 briefly.
-        
-          <p class="article-more-link">
-            <a href="/2015/11/12/ASP-NET-Web-Development-With-Visual-Studio-2015-and-Local-IIS-7-on-Windows-7/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Local-IIS/">Local IIS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Studio-2015/">Visual Studio 2015</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows-7/">Windows 7</a></li></ul>
 
       </footer>
     
