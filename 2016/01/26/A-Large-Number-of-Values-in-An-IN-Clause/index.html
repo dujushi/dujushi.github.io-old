@@ -5,19 +5,16 @@
   
   <title>A Large Number of Values in An IN Clause - Peikai Guo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.
-With Entity Framework1234567">
+  <meta name="description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Large Number of Values in An IN Clause">
 <meta property="og:url" content="http://dujushi.github.io/2016/01/26/A-Large-Number-of-Values-in-An-IN-Clause/index.html">
 <meta property="og:site_name" content="Peikai Guo">
-<meta property="og:description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.
-With Entity Framework1234567">
-<meta property="og:updated_time" content="2016-01-26T09:29:45.000Z">
+<meta property="og:description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.">
+<meta property="og:updated_time" content="2016-01-31T03:15:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Large Number of Values in An IN Clause">
-<meta name="twitter:description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.
-With Entity Framework1234567">
+<meta name="twitter:description" content="Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.">
   
     <link rel="alternative" href="/atom.xml" title="Peikai Guo" type="application/atom+xml">
   
@@ -103,7 +100,7 @@ ga('send', 'pageview');
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.</p>
+        <p>Using a large number of values in an IN clause is not recommended. It is time consuming and may result in an error. Out of curiosities I ran two simple tests against this.<a id="more"></a></p>
 <h3 id="With_Entity_Framework">With Entity Framework</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public void InClauseMaxValuesWithEntityFramework()</span><br><span class="line">&#123;</span><br><span class="line">    using (<span class="keyword">var</span> <span class="keyword">db</span> = new EfDbContext())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = 10000; i &lt; 20000; i += 1000)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">log</span> = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">db</span>.Database.<span class="keyword">Log</span> = s =&gt; <span class="keyword">log</span> += s;</span><br><span class="line">            <span class="keyword">var</span> idArr = Enumerable.<span class="keyword">Range</span>(0, i).Select(x =&gt; Guid.NewGuid()).ToArray();</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">count</span> = <span class="keyword">db</span>.Categories.<span class="keyword">Count</span>(c =&gt; idArr.Contains(c.Id));</span><br><span class="line">            Console.WriteLine($<span class="string">"Guid count: &#123;i&#125;, sql length: &#123;log.Length&#125;, result: &#123;count&#125;"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>I set db.Database.Log to log query into local log variable. The queries were really slow with more than 10,000 of values. I got the following result.<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span> <span class="type">Name</span>:  <span class="type">InClauseMaxValuesWithEntityFramework</span></span><br><span class="line"><span class="type">Test</span> <span class="type">Outcome</span>:   <span class="type">Failed</span></span><br><span class="line"><span class="type">Result</span> <span class="type">Message</span>: </span><br><span class="line"><span class="type">Test</span> <span class="keyword">method</span> <span class="type">UnitTest</span>.<span class="type">Demo</span>.<span class="type">InClauseMaxValuesWithEntityFramework</span> threw exception: </span><br><span class="line"><span class="type">System</span>.<span class="type">Data</span>.<span class="type">Entity</span>.<span class="type">Core</span>.<span class="type">EntityCommandExecutionException</span>: <span class="type">An</span> error occurred <span class="keyword">while</span> executing the command definition. <span class="type">See</span> the inner exception <span class="keyword">for</span> details. ---&gt; <span class="type">System</span>.<span class="type">Data</span>.<span class="type">SqlClient</span>.<span class="type">SqlException</span>: <span class="type">Timeout</span> expired.  <span class="type">The</span> timeout period elapsed prior to completion <span class="keyword">of</span> the operation <span class="keyword">or</span> the server <span class="keyword">is</span> <span class="keyword">not</span> responding. ---&gt; <span class="type">System</span>.<span class="type">ComponentModel</span>.<span class="type">Win32Exception</span>: <span class="type">The</span> wait operation timed <span class="keyword">out</span></span><br><span class="line"><span class="type">Result</span> <span class="type">StandardOutput</span>:  </span><br><span class="line"><span class="type">Guid</span> count: <span class="number">10000</span>, sql length: <span class="number">662035</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">11000</span>, sql length: <span class="number">726388</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">12000</span>, sql length: <span class="number">792389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">13000</span>, sql length: <span class="number">858389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">14000</span>, sql length: <span class="number">924389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br><span class="line"><span class="type">Guid</span> count: <span class="number">15000</span>, sql length: <span class="number">990389</span>, <span class="literal">result</span>: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
 <p>It threw a timeout exception when it reached 16,000 values.</p>
@@ -128,6 +125,14 @@ ga('send', 'pageview');
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/01/31/Payment-Express-PxPay-with-HttpClient-and-LINQ-to-XML/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Payment Express PxPay with HttpClient and LINQ to XML
+        
+      </div>
+    </a>
   
   
     <a href="/2016/01/19/Export-Data-as-CSV/" id="article-nav-older" class="article-nav-link-wrap">
