@@ -69,6 +69,57 @@ ga('send', 'pageview');
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="blog-How-to-Start-ReactJS-Development" class="article article-type-blog" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/11/How-to-Start-ReactJS-Development/">How to Start ReactJS Development</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/02/11/How-to-Start-ReactJS-Development/" class="article-date">
+  <time datetime="2016-02-10T20:43:28.000Z" itemprop="datePublished">2016-02-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Front-End/">Front End</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://dujushi.github.io/2016/02/11/How-to-Start-ReactJS-Development/#disqus_thread" class="article-comment-link">Comments</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I started learning ReactJS about two months ago. Recently I built one simple SPA (Single Page App) with React-Router and Flux.</p>
+<p>I was searching hard for ReactJS materials to enhance my ReactJS skills. There are so many technologies around it which makes me feel overwhelmed. I learned Gulp for front end automation. And then I found Webpack is much better so I switched to Webpack. ES6 is just fantastic so I decided to learn ES6 as well and made my simple app with ES6. After that I added React-Router and Flux. It seems there are much more to learn to master these skills and I cannot just learn all of them at once. What should be the priority of learning these skills?</p>
+<p>Pete Hunt wrote a great <a href="https://github.com/petehunt/react-howto" target="_blank" rel="external">react-howto</a> document. He listed the priorities which are quite clear and smart. I may follow the list along and check my skills one by one. Pete has another great <a href="https://github.com/petehunt/webpack-howto" target="_blank" rel="external">webpack-howto</a>. And you should definitely watch his youtube video <a href="http://youtu.be/VkTCL6Nqm6Y" target="_blank" rel="external">OSCON 2014: How Instagram.com Works</a> if you want to start SPA development.</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flux/">Flux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React-Router/">React-Router</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactJS/">ReactJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SPA/">SPA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webpack/">Webpack</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="blog-Payment-Express-PxPay-with-HttpClient-and-LINQ-to-XML" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -100,20 +151,12 @@ ga('send', 'pageview');
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token Billing. All APIs use XML format for data exchange. This article shows you how I use HttpClient and LINQ to XML to consume those APIs.</p>
-<h3 id="Payment_Express_PxPay">Payment Express PxPay</h3><p>PxPay is currently at version 2.0. You can check out its Integration Guide from <a href="https://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay_2_0" target="_blank" rel="external">this link</a>. It also provides sample C# code. You can even customize their hosted payment page with your own CSS from their admin site. </p>
-<h3 id="Web-config">Web.config</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;appSettings&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUri"</span> <span class="built_in">value</span>=<span class="string">"https://sec.paymentexpress.com/pxpay/pxaccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUserId"</span> <span class="built_in">value</span>=<span class="string">"[Your User Id]"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayKey"</span> <span class="built_in">value</span>=<span class="string">"[Your Key]"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUrlSuccess"</span> <span class="built_in">value</span>=<span class="string">"https://www.dpsdemo.com/SandboxSuccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUrlFail"</span> <span class="built_in">value</span>=<span class="string">"https://www.dpsdemo.com/SandboxSuccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayDefaultCurrencyInput"</span> <span class="built_in">value</span>=<span class="string">"NZD"</span>/&gt;</span><br><span class="line">&lt;/appSettings&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="SendRequest">SendRequest</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task&lt;XElement&gt; <span class="title">SendRequest</span>(<span class="params"><span class="keyword">string</span> type, Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt; data</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    XElement responseXml = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        data[<span class="string">"PxPayUserId"</span>] = UserId;</span><br><span class="line">        data[<span class="string">"PxPayKey"</span>] = Key;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> requestXml = <span class="keyword">new</span> XElement(type, data.Select(d =&gt; <span class="keyword">new</span> XElement(d.Key, d.Value)).ToArray());</span><br><span class="line">        <span class="keyword">var</span> requestContent = <span class="keyword">new</span> StringContent(requestXml.ToString(), Encoding.UTF8, <span class="string">"application/xml"</span>);</span><br><span class="line">        HttpResponseMessage response = <span class="keyword">await</span> client.PostAsync(Uri, requestContent);</span><br><span class="line">        <span class="keyword">if</span> (!response.IsSuccessStatusCode)</span><br><span class="line">        &#123;</span><br><span class="line">            Trace.TraceError($<span class="string">"Request failed. Response: &#123;response&#125;"</span>);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> PxPayException(<span class="string">"Request failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> responseContent = <span class="keyword">await</span> response.Content.ReadAsStringAsync();</span><br><span class="line">            responseXml = XElement.Parse(responseContent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> responseXml;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> We use SendRequest to interact with Payment Express Web Services. XElement is used to parse and generate xml string.</p>
-<h3 id="GenerateRequest">GenerateRequest</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> async Task&lt;<span class="built_in">string</span>&gt; GenerateRequest(TxnType txnType, <span class="built_in">string</span> txnId, <span class="built_in">decimal</span> amountInput, </span><br><span class="line">    <span class="built_in">string</span> merchantReference, bool enableAddBillCard, <span class="built_in">string</span> dpsBillingId)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">data</span> = <span class="literal">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#123;<span class="string">"TxnType"</span>, txnType<span class="built_in">.</span>ToString()&#125;,</span><br><span class="line">        &#123;<span class="string">"AmountInput"</span>, amountInput<span class="built_in">.</span>ToString()&#125;,</span><br><span class="line">        &#123;<span class="string">"TxnId"</span>, txnId&#125;,</span><br><span class="line">        &#123;<span class="string">"DpsBillingId"</span>, dpsBillingId&#125;,</span><br><span class="line">        &#123;<span class="string">"EnableAddBillCard"</span>, enableAddBillCard ? <span class="string">"1"</span> : <span class="string">"0"</span>&#125;,</span><br><span class="line">        &#123;<span class="string">"MerchantReference"</span>, HttpUtility<span class="built_in">.</span>HtmlEncode(merchantReference)&#125;,</span><br><span class="line">        &#123;<span class="string">"CurrencyInput"</span>, CurrencyInput&#125;,</span><br><span class="line">        &#123;<span class="string">"UrlSuccess"</span>, UrlSuccess&#125;, </span><br><span class="line">        &#123;<span class="string">"UrlFail"</span>, UrlFail&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">xml</span> = await SendRequest(<span class="string">"GenerateRequest"</span>, <span class="built_in">data</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"URI"</span>) == <span class="built_in">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Trace<span class="built_in">.</span>TraceErr<span class="subst">or</span>($<span class="string">"GenerateRequest Error. Response: &#123;xml&#125;"</span>);</span><br><span class="line">        throw <span class="literal">new</span> PxPayException(<span class="string">"GenerateRequest Error"</span>, <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"Reco"</span>)<span class="built_in">.</span>Value, <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"ResponseText"</span>)<span class="built_in">.</span>Value);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">xml</span><span class="built_in">.</span>Attribute(<span class="string">"valid"</span>)<span class="built_in">.</span>Value != <span class="string">"1"</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Trace<span class="built_in">.</span>TraceErr<span class="subst">or</span>($<span class="string">"GenerateRequest Invalid. Response: &#123;xml&#125;"</span>);</span><br><span class="line">        throw <span class="literal">new</span> PxPayException(<span class="string">"GenerateRequest Invalid"</span>, <span class="string">""</span>, <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"URI"</span>)<span class="built_in">.</span>Value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"URI"</span>)<span class="built_in">.</span>Value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>We use GenerateRequest to get the URL of DPS hosted payment page. Auth, Purchase, and Token Billing all use this method.</p>
-<h3 id="Handy_Wrappers">Handy Wrappers</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line"> * for purchase and bill setup</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">Purchase</span>(<span class="params"><span class="keyword">string</span> txnId, <span class="keyword">decimal</span> amountInput, <span class="keyword">string</span> merchantReference = <span class="string">""</span>, </span><br><span class="line">    <span class="keyword">bool</span> enableAddBillCard = <span class="keyword">false</span></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> GenerateRequest(TxnType.Purchase, txnId, amountInput, merchantReference, <span class="keyword">false</span>, <span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span><br><span class="line"> * for rebill</span><br><span class="line">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">Purchase</span>(<span class="params"><span class="keyword">string</span> txnId, <span class="keyword">decimal</span> amountInput, <span class="keyword">string</span> dpsBillingId, </span><br><span class="line">    <span class="keyword">string</span> merchantReference = <span class="string">""</span></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> GenerateRequest(TxnType.Purchase, txnId, amountInput, merchantReference, <span class="keyword">false</span>, dpsBillingId);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">Auth</span>(<span class="params"><span class="keyword">string</span> txnId, <span class="keyword">decimal</span> amountInput, <span class="keyword">string</span> merchantReference = <span class="string">""</span>, </span><br><span class="line">    <span class="keyword">bool</span> enableAddBillCard = <span class="keyword">false</span></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> GenerateRequest(TxnType.Auth, txnId, amountInput, merchantReference, enableAddBillCard, <span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">BillSetup</span>(<span class="params"><span class="keyword">string</span> txnId, <span class="keyword">decimal</span> amountInput, <span class="keyword">string</span> merchantReference = <span class="string">""</span>, <span class="keyword">bool</span> withPurchase = <span class="keyword">false</span></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (withPurchase)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> Purchase(txnId, amountInput, merchantReference, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> Auth(txnId, amountInput, merchantReference, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">Rebill</span>(<span class="params"><span class="keyword">string</span> txnId, <span class="keyword">decimal</span> amountInput, <span class="keyword">string</span> dpsBillingId, </span><br><span class="line">    <span class="keyword">string</span> merchantReference = <span class="string">""</span></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> Purchase(txnId, amountInput, dpsBillingId, merchantReference);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> I write some wrappers around GenerateRequest so that I won’t be annoyed by many parameters which might not be related with the transaction type I’m about to use. For example, if you need to issue a Purchase request, you can call Purchase method with your txnId and amountInput, or Auth with Auth method etc.</p>
-<h3 id="ProcessResponse">ProcessResponse</h3><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> async Task&lt;Response&gt; ProcessResponse(<span class="built_in">string</span> response)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">data</span> = <span class="literal">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#123;<span class="string">"Response"</span>, response&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">var</span> <span class="built_in">xml</span> = await SendRequest(<span class="string">"ProcessResponse"</span>, <span class="built_in">data</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">xml</span><span class="built_in">.</span>Attribute(<span class="string">"valid"</span>)<span class="built_in">.</span>Value != <span class="string">"1"</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Trace<span class="built_in">.</span>TraceErr<span class="subst">or</span>($<span class="string">"ProcessResponse Invalid. Response: &#123;xml&#125;"</span>);</span><br><span class="line">        throw <span class="literal">new</span> PxPayException(<span class="string">"ProcessResponse Invalid"</span>, <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"Reco"</span>)<span class="built_in">.</span>Value, <span class="built_in">xml</span><span class="built_in">.</span>Element(<span class="string">"ResponseText"</span>)<span class="built_in">.</span>Value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">var</span> serializer = <span class="literal">new</span> XmlSerializer(typeof(Response));</span><br><span class="line">    <span class="keyword">return</span> (Response)serializer<span class="built_in">.</span>Deserialize(<span class="built_in">xml</span><span class="built_in">.</span>CreateReader());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> After payment is made, customers will be redirected to your SuccessUrl or FailUrl with a response code. You can get transaction details with the code via ProcessResponse. We use XmlSerializer to deserialize xml result to a Response object. Instead of traversing an XML for the info, checking against an Response object is much more handy.</p>
-<h3 id="Github">Github</h3><p><a href="https://github.com/dujushi/snippets/tree/master/PxPay" target="_blank" rel="external">https://github.com/dujushi/snippets/tree/master/PxPay</a></p>
-<h3 id="Reference">Reference</h3><p>1.<a href="https://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay_2_0" target="_blank" rel="external">Payment Express Hosted - PxPay 2.0</a><br>2.<a href="http://www.dotnetcurry.com/linq/564/linq-to-xml-tutorials-examples" target="_blank" rel="external">LINQ To XML Tutorials with Examples</a><br>3.<a href="http://stackoverflow.com/questions/25352462/how-to-send-xml-content-with-httpclient-postasync" target="_blank" rel="external">How to send XML content with HttpClient.PostAsync</a><br>4.<a href="http://www.hanselman.com/blog/MixingXmlSerializersWithXElementsAndLINQToXML.aspx" target="_blank" rel="external">Mixing XmlSerializers with XElements and LINQ to XML</a><br>5.<a href="https://msdn.microsoft.com/en-us/library/ms173163.aspx" target="_blank" rel="external">Creating and Throwing Exceptions</a><br>6.<a href="http://stackoverflow.com/questions/516233/how-to-use-web-config-when-unit-testing-an-asp-net-application" target="_blank" rel="external">How to use web.config when unit testing an asp .net application</a></p>
-
+        <p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token Billing. All APIs use XML format for data exchange. This article shows you how I use HttpClient and LINQ to XML to consume those APIs.
+        
+          <p class="article-more-link">
+            <a href="/2016/01/31/Payment-Express-PxPay-with-HttpClient-and-LINQ-to-XML/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -362,7 +405,7 @@ ga('send', 'pageview');
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Gulp/">Gulp</a>
+    <a class="article-category-link" href="/categories/Front-End/">Front End</a>
   </div>
 
       
@@ -385,7 +428,7 @@ ga('send', 'pageview');
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Babel/">Babel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bower/">Bower</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Browerify/">Browerify</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sass/">Sass</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Babel/">Babel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bower/">Bower</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Browerify/">Browerify</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sass/">Sass</a></li></ul>
 
       </footer>
     
@@ -545,60 +588,6 @@ ga('send', 'pageview');
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AJAX/">AJAX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-Sharp/">C Sharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-    
-      <article id="blog-Generate-A-Dropdown-List-for-Enum" class="article article-type-blog" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/26/Generate-A-Dropdown-List-for-Enum/">Generate A Dropdown List for Enum</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/11/26/Generate-A-Dropdown-List-for-Enum/" class="article-date">
-  <time datetime="2015-11-26T06:56:52.000Z" itemprop="datePublished">2015-11-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ASP-NET-MVC/">ASP.NET MVC</a>
-  </div>
-
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://dujushi.github.io/2015/11/26/Generate-A-Dropdown-List-for-Enum/#disqus_thread" class="article-comment-link">Comments</a>
-        </div>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>We often use an Enum in C# to define all options for a field, such as a category Enum:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">enum</span> <span class="title">CategoryEnum</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="constant">Book</span>,</span><br><span class="line">    <span class="constant">Food</span>,</span><br><span class="line">    <span class="constant">Tourism</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>And we need a dropdown list for this category field. How would you implement this?
-        
-          <p class="article-more-link">
-            <a href="/2015/11/26/Generate-A-Dropdown-List-for-Enum/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-Sharp/">C Sharp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dropdown-List/">Dropdown List</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Enum/">Enum</a></li></ul>
 
       </footer>
     

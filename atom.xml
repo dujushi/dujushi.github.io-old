@@ -4,7 +4,7 @@
   <subtitle><![CDATA[A Web Developer Blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://dujushi.github.io/"/>
-  <updated>2016-01-31T03:32:25.000Z</updated>
+  <updated>2016-02-10T20:52:13.000Z</updated>
   <id>http://dujushi.github.io/</id>
   
   <author>
@@ -15,12 +15,45 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[How to Start ReactJS Development]]></title>
+    <link href="http://dujushi.github.io/2016/02/11/How-to-Start-ReactJS-Development/"/>
+    <id>http://dujushi.github.io/2016/02/11/How-to-Start-ReactJS-Development/</id>
+    <published>2016-02-10T20:43:28.000Z</published>
+    <updated>2016-02-10T20:52:13.000Z</updated>
+    <content type="html"><![CDATA[<p>I started learning ReactJS about two months ago. Recently I built one simple SPA (Single Page App) with React-Router and Flux.</p>
+<p>I was searching hard for ReactJS materials to enhance my ReactJS skills. There are so many technologies around it which makes me feel overwhelmed. I learned Gulp for front end automation. And then I found Webpack is much better so I switched to Webpack. ES6 is just fantastic so I decided to learn ES6 as well and made my simple app with ES6. After that I added React-Router and Flux. It seems there are much more to learn to master these skills and I cannot just learn all of them at once. What should be the priority of learning these skills?</p>
+<p>Pete Hunt wrote a great <a href="https://github.com/petehunt/react-howto" target="_blank" rel="external">react-howto</a> document. He listed the priorities which are quite clear and smart. I may follow the list along and check my skills one by one. Pete has another great <a href="https://github.com/petehunt/webpack-howto" target="_blank" rel="external">webpack-howto</a>. And you should definitely watch his youtube video <a href="http://youtu.be/VkTCL6Nqm6Y" target="_blank" rel="external">OSCON 2014: How Instagram.com Works</a> if you want to start SPA development.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>I started learning ReactJS about two months ago. Recently I built one simple SPA (Single Page App) with React-Router and Flux.</p>
+<p>I w]]>
+    </summary>
+    
+      <category term="ES6" scheme="http://dujushi.github.io/tags/ES6/"/>
+    
+      <category term="Flux" scheme="http://dujushi.github.io/tags/Flux/"/>
+    
+      <category term="Gulp" scheme="http://dujushi.github.io/tags/Gulp/"/>
+    
+      <category term="React-Router" scheme="http://dujushi.github.io/tags/React-Router/"/>
+    
+      <category term="ReactJS" scheme="http://dujushi.github.io/tags/ReactJS/"/>
+    
+      <category term="SPA" scheme="http://dujushi.github.io/tags/SPA/"/>
+    
+      <category term="Webpack" scheme="http://dujushi.github.io/tags/Webpack/"/>
+    
+      <category term="Front End" scheme="http://dujushi.github.io/categories/Front-End/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Payment Express PxPay with HttpClient and LINQ to XML]]></title>
     <link href="http://dujushi.github.io/2016/01/31/Payment-Express-PxPay-with-HttpClient-and-LINQ-to-XML/"/>
     <id>http://dujushi.github.io/2016/01/31/Payment-Express-PxPay-with-HttpClient-and-LINQ-to-XML/</id>
     <published>2016-01-31T03:14:12.000Z</published>
-    <updated>2016-01-31T03:32:25.000Z</updated>
-    <content type="html"><![CDATA[<p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token Billing. All APIs use XML format for data exchange. This article shows you how I use HttpClient and LINQ to XML to consume those APIs.</p>
+    <updated>2016-02-10T20:47:43.000Z</updated>
+    <content type="html"><![CDATA[<p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token Billing. All APIs use XML format for data exchange. This article shows you how I use HttpClient and LINQ to XML to consume those APIs.<a id="more"></a></p>
 <h3 id="Payment_Express_PxPay">Payment Express PxPay</h3><p>PxPay is currently at version 2.0. You can check out its Integration Guide from <a href="https://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay_2_0" target="_blank" rel="external">this link</a>. It also provides sample C# code. You can even customize their hosted payment page with your own CSS from their admin site. </p>
 <h3 id="Web-config">Web.config</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;appSettings&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUri"</span> <span class="built_in">value</span>=<span class="string">"https://sec.paymentexpress.com/pxpay/pxaccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUserId"</span> <span class="built_in">value</span>=<span class="string">"[Your User Id]"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayKey"</span> <span class="built_in">value</span>=<span class="string">"[Your Key]"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUrlSuccess"</span> <span class="built_in">value</span>=<span class="string">"https://www.dpsdemo.com/SandboxSuccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayUrlFail"</span> <span class="built_in">value</span>=<span class="string">"https://www.dpsdemo.com/SandboxSuccess.aspx"</span>/&gt;</span><br><span class="line">    &lt;<span class="built_in">add</span> key=<span class="string">"PxPayDefaultCurrencyInput"</span> <span class="built_in">value</span>=<span class="string">"NZD"</span>/&gt;</span><br><span class="line">&lt;/appSettings&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="SendRequest">SendRequest</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task&lt;XElement&gt; <span class="title">SendRequest</span>(<span class="params"><span class="keyword">string</span> type, Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt; data</span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">    XElement responseXml = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        data[<span class="string">"PxPayUserId"</span>] = UserId;</span><br><span class="line">        data[<span class="string">"PxPayKey"</span>] = Key;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> requestXml = <span class="keyword">new</span> XElement(type, data.Select(d =&gt; <span class="keyword">new</span> XElement(d.Key, d.Value)).ToArray());</span><br><span class="line">        <span class="keyword">var</span> requestContent = <span class="keyword">new</span> StringContent(requestXml.ToString(), Encoding.UTF8, <span class="string">"application/xml"</span>);</span><br><span class="line">        HttpResponseMessage response = <span class="keyword">await</span> client.PostAsync(Uri, requestContent);</span><br><span class="line">        <span class="keyword">if</span> (!response.IsSuccessStatusCode)</span><br><span class="line">        &#123;</span><br><span class="line">            Trace.TraceError($<span class="string">"Request failed. Response: &#123;response&#125;"</span>);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> PxPayException(<span class="string">"Request failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> responseContent = <span class="keyword">await</span> response.Content.ReadAsStringAsync();</span><br><span class="line">            responseXml = XElement.Parse(responseContent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> responseXml;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -35,7 +68,8 @@
 <h3 id="Reference">Reference</h3><p>1.<a href="https://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay_2_0" target="_blank" rel="external">Payment Express Hosted - PxPay 2.0</a><br>2.<a href="http://www.dotnetcurry.com/linq/564/linq-to-xml-tutorials-examples" target="_blank" rel="external">LINQ To XML Tutorials with Examples</a><br>3.<a href="http://stackoverflow.com/questions/25352462/how-to-send-xml-content-with-httpclient-postasync" target="_blank" rel="external">How to send XML content with HttpClient.PostAsync</a><br>4.<a href="http://www.hanselman.com/blog/MixingXmlSerializersWithXElementsAndLINQToXML.aspx" target="_blank" rel="external">Mixing XmlSerializers with XElements and LINQ to XML</a><br>5.<a href="https://msdn.microsoft.com/en-us/library/ms173163.aspx" target="_blank" rel="external">Creating and Throwing Exceptions</a><br>6.<a href="http://stackoverflow.com/questions/516233/how-to-use-web-config-when-unit-testing-an-asp-net-application" target="_blank" rel="external">How to use web.config when unit testing an asp .net application</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token]]>
+    <![CDATA[<p>Payment Express is one of the most popular payment gateways based in New Zealand. PxPay provides handy APIs for Auth, Purchase, and Token Billing. All APIs use XML format for data exchange. This article shows you how I use HttpClient and LINQ to XML to consume those APIs.]]>
+    
     </summary>
     
       <category term="HttpClient" scheme="http://dujushi.github.io/tags/HttpClient/"/>
@@ -207,7 +241,7 @@
     <link href="http://dujushi.github.io/2015/12/29/Front-End-Automation-With-Gulp/"/>
     <id>http://dujushi.github.io/2015/12/29/Front-End-Automation-With-Gulp/</id>
     <published>2015-12-29T02:27:11.000Z</published>
-    <updated>2016-01-11T21:52:12.000Z</updated>
+    <updated>2016-02-10T20:52:02.000Z</updated>
     <content type="html"><![CDATA[<p>Gulp is a great tool for front end automation tasks. In this article I will show you how I use Gulp to boost my front end development efficiency.<a id="more"></a> </p>
 <h3 id="Gulp_Plugins">Gulp Plugins</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulpLoadPlugins = <span class="built_in">require</span>(<span class="string">'gulp-load-plugins'</span>);</span><br><span class="line"><span class="keyword">var</span> plugins = gulpLoadPlugins();</span><br></pre></td></tr></table></figure>
 <p>We will use lots of Gulp plugins in our tasks. With gulp-load-plugins we don’t need to import them mannually.</p>
@@ -248,11 +282,13 @@
     
       <category term="Browerify" scheme="http://dujushi.github.io/tags/Browerify/"/>
     
+      <category term="Gulp" scheme="http://dujushi.github.io/tags/Gulp/"/>
+    
       <category term="React" scheme="http://dujushi.github.io/tags/React/"/>
     
       <category term="Sass" scheme="http://dujushi.github.io/tags/Sass/"/>
     
-      <category term="Gulp" scheme="http://dujushi.github.io/categories/Gulp/"/>
+      <category term="Front End" scheme="http://dujushi.github.io/categories/Front-End/"/>
     
   </entry>
   
@@ -474,7 +510,7 @@
     <link href="http://dujushi.github.io/2015/10/08/Magento-1-Development-Environment-Setup/"/>
     <id>http://dujushi.github.io/2015/10/08/Magento-1-Development-Environment-Setup/</id>
     <published>2015-10-08T08:12:25.000Z</published>
-    <updated>2015-12-29T02:54:20.000Z</updated>
+    <updated>2016-02-10T20:53:20.000Z</updated>
     <content type="html"><![CDATA[<p>There is an advanced Magento development environment setup tool implemented by <a href="https://github.com/davidalger/devenv" target="_blank" rel="external">davidalger</a>. But I’d like to keep my env simple and basic:P So I decided to make my own.<a id="more"></a> </p>
 <p>The Env is a simple LAMP server with some basic automations based on Vagrant and Virtualbox. I chose to set it up with the most popular Vagrant box <a href="https://atlas.hashicorp.com/ubuntu/boxes/trusty64" target="_blank" rel="external">ubuntu/trusty64</a>. Then, I wrote a simple shell script lamp.sh as a provisoning file to install LAMP and set up the demo site mage.local. If you need another brand new demo site, simply call: <code>sh alpha.sh</code>. This will set up another site: alpha.local. Otherwise, you can recreate the mage.local demo site by calling <code>sh mage.local</code>. </p>
 <p>This setup is basic. Everything is static, but it suffices to boost my local development anyway:P</p>
@@ -489,7 +525,7 @@
     
       <category term="Magento 1" scheme="http://dujushi.github.io/tags/Magento-1/"/>
     
-      <category term="Magento 1" scheme="http://dujushi.github.io/categories/Magento-1/"/>
+      <category term="Magento" scheme="http://dujushi.github.io/categories/Magento/"/>
     
   </entry>
   
