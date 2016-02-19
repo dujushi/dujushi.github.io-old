@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>React Practice: A Simple Travel Plan App - Peikai Guo</title>
+  <title>Travel Plan: React Basic - Peikai Guo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="‘Travel Plan’ is a simple app I implemented by following along Tutorial on React official website. It uses only some basic React functions and Google Map Javascript APIs.">
+  <meta name="description" content="‘Travel Plan’ is a simple web app I implemented by following the tutorial on React official website. It uses basic React functions and Google Map Javascript APIs.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React Practice: A Simple Travel Plan App">
-<meta property="og:url" content="http://dujushi.github.io/2016/02/14/React-Practice-A-Simple-Travel-Plan-App/index.html">
+<meta property="og:title" content="Travel Plan: React Basic">
+<meta property="og:url" content="http://dujushi.github.io/2016/02/14/Travel-Plan-React-Basic/index.html">
 <meta property="og:site_name" content="Peikai Guo">
-<meta property="og:description" content="‘Travel Plan’ is a simple app I implemented by following along Tutorial on React official website. It uses only some basic React functions and Google Map Javascript APIs.">
-<meta property="og:updated_time" content="2016-02-14T04:02:14.000Z">
+<meta property="og:description" content="‘Travel Plan’ is a simple web app I implemented by following the tutorial on React official website. It uses basic React functions and Google Map Javascript APIs.">
+<meta property="og:updated_time" content="2016-02-19T06:27:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React Practice: A Simple Travel Plan App">
-<meta name="twitter:description" content="‘Travel Plan’ is a simple app I implemented by following along Tutorial on React official website. It uses only some basic React functions and Google Map Javascript APIs.">
+<meta name="twitter:title" content="Travel Plan: React Basic">
+<meta name="twitter:description" content="‘Travel Plan’ is a simple web app I implemented by following the tutorial on React official website. It uses basic React functions and Google Map Javascript APIs.">
   
     <link rel="alternative" href="/atom.xml" title="Peikai Guo" type="application/atom+xml">
   
@@ -69,7 +69,7 @@ ga('send', 'pageview');
     </div>
   </div>
 </header>
-    <section id="main" class="outer"><article id="blog-React-Practice-A-Simple-Travel-Plan-App" class="article article-type-blog" itemscope itemprop="blogPost">
+    <section id="main" class="outer"><article id="blog-Travel-Plan-React-Basic" class="article article-type-blog" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -77,14 +77,14 @@ ga('send', 'pageview');
         
   
     <h1 class="article-title" itemprop="name">
-      React Practice: A Simple Travel Plan App
+      Travel Plan: React Basic
     </h1>
   
 
       </header>
     
     <div class="article-meta">
-      <a href="/2016/02/14/React-Practice-A-Simple-Travel-Plan-App/" class="article-date">
+      <a href="/2016/02/14/Travel-Plan-React-Basic/" class="article-date">
   <time datetime="2016-02-14T03:42:51.000Z" itemprop="datePublished">2016-02-14</time>
 </a>
       
@@ -94,13 +94,13 @@ ga('send', 'pageview');
 
       
         <div class="article-comment-link-wrap">
-          <a href="http://dujushi.github.io/2016/02/14/React-Practice-A-Simple-Travel-Plan-App/#disqus_thread" class="article-comment-link">Comments</a>
+          <a href="http://dujushi.github.io/2016/02/14/Travel-Plan-React-Basic/#disqus_thread" class="article-comment-link">Comments</a>
         </div>
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>‘Travel Plan’ is a simple app I implemented by following along Tutorial on React official website. It uses only some basic React functions and Google Map Javascript APIs.<a id="more"></a> </p>
+        <p>‘Travel Plan’ is a simple web app I implemented by following the tutorial on React official website. It uses basic React functions and Google Map Javascript APIs.<a id="more"></a> </p>
 <p>The app has a large input field for users to type in their next travel stops with autocomplete support from Google AutocompleteService API. And it has a list of stops with distances and durations between them. The distance and duration data come from Google DistanceMatrixService API.</p>
 <h3 id="PlaceForm">PlaceForm</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> PlaceForm = React.createClass(&#123;</span><br><span class="line">  defaultState: &#123;keywords: <span class="string">''</span>, predictions: [], error: <span class="string">''</span>&#125;,</span><br><span class="line">  getInitialState: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.defaultState;</span><br><span class="line">  &#125;,</span><br><span class="line">  render: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> predictionNodes = <span class="keyword">this</span>.state.predictions.map(<span class="function"><span class="keyword">function</span><span class="params">(prediction)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        &lt;li key=&#123;prediction.place_id&#125;</span><br><span class="line">            onClick=&#123;<span class="keyword">this</span>.handlePlaceSelect.bind(<span class="keyword">this</span>, prediction.place_id, prediction.description)&#125;</span><br><span class="line">            &gt;</span><br><span class="line">          &#123;prediction.description&#125;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">      );</span><br><span class="line">    &#125;.bind(<span class="keyword">this</span>));</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;input value=&#123;<span class="keyword">this</span>.state.keywords&#125; onChange=&#123;<span class="keyword">this</span>.handleKeywordsChange&#125; placeholder=<span class="string">'Enter your next stop'</span> /&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.error != <span class="string">""</span> ? &lt;div className=<span class="string">'Error'</span>&gt;&#123;<span class="keyword">this</span>.state.error&#125;&lt;/div&gt; : <span class="literal">null</span>&#125;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.predictions.length == <span class="number">0</span> ? <span class="literal">null</span> : &lt;ul&gt;&#123;predictionNodes&#125;&lt;/ul&gt;&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;,</span><br><span class="line">  handleKeywordsChange: <span class="function"><span class="keyword">function</span><span class="params">(e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> keywords = e.target.value;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;keywords: keywords&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// no query if keywords has fewer than 5 characters</span></span><br><span class="line">    <span class="keyword">if</span> (keywords.length &lt; <span class="number">5</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123;predictions: []&#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> service = <span class="keyword">new</span> google.maps.places.AutocompleteService();</span><br><span class="line">      service.getQueryPredictions(&#123;input: keywords&#125;, <span class="function"><span class="keyword">function</span><span class="params">(predictions, status)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// result may come back in different order.</span></span><br><span class="line">        <span class="comment">// only show results for current keywords.</span></span><br><span class="line">        <span class="keyword">if</span> (keywords != <span class="keyword">this</span>.state.keywords) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (status) &#123;</span><br><span class="line">          <span class="keyword">case</span> google.maps.places.PlacesServiceStatus.OK:</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;predictions: predictions&#125;);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">case</span> google.maps.places.PlacesServiceStatus.ZERO_RESULTS:</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;predictions: []&#125;);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;error: status, predictions: []&#125;);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;.bind(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  handlePlaceSelect: <span class="function"><span class="keyword">function</span><span class="params">(place_id, description, e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="keyword">this</span>.defaultState);</span><br><span class="line">    <span class="keyword">this</span>.props.onPlaceSelect(&#123;place_id: place_id, description: description, duration: <span class="string">''</span>, distance: <span class="string">''</span>&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p> PlaceForm component takes one onPlaceSelect property and has three state attributes (keywords, predictions, error). ‘keywords’ stores current user input. ‘predictions’ stores all places returned from Google AutocompleteService. ‘error’ keeps error from the Google API. We use <em>bind(this)</em> for both callback functions so that we can set state within the callback. And we use <em>bind(this, prediction.place_id, prediction.description)</em> to pass place info to handlePlaceSelect. The callback function is defined as <em>function(place_id, description, e)</em>. Notice that place info parameters should be added before the default event parameter.</p>
@@ -136,6 +136,14 @@ ga('send', 'pageview');
     
 <nav id="article-nav">
   
+    <a href="/2016/02/19/Travel-Plan-Bundling-with-webpack/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Travel Plan: Bundling with webpack
+        
+      </div>
+    </a>
+  
   
     <a href="/2016/02/11/How-to-Start-ReactJS-Development/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">How to Start ReactJS Development&nbsp;<span>&gt;</span></div>
@@ -166,7 +174,7 @@ ga('send', 'pageview');
 <script>
   var disqus_shortname = 'peikaiguo';
   
-  var disqus_url = 'http://dujushi.github.io/2016/02/14/React-Practice-A-Simple-Travel-Plan-App/';
+  var disqus_url = 'http://dujushi.github.io/2016/02/14/Travel-Plan-React-Basic/';
   
   (function(){
     var dsq = document.createElement('script');
