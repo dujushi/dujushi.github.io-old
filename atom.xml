@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Peikai Guo]]></title>
+  <title><![CDATA[William Guo]]></title>
   <subtitle><![CDATA[A Web Developer Blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://dujushi.github.io/"/>
@@ -8,7 +8,7 @@
   <id>http://dujushi.github.io/</id>
   
   <author>
-    <name><![CDATA[Peikai Guo]]></name>
+    <name><![CDATA[William Guo]]></name>
     
   </author>
   
